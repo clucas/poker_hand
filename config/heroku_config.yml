@@ -1,0 +1,11 @@
+default: &default
+  heroku_host: intense-lake-36228.herokuapp.com
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
