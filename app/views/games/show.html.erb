@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @game.name %>
+</p>
+<p>
+  <strong>Number of players:</strong>
+  <%= @game.players_count %>
+</p>
+<p>
+  <strong>Number of rounds:</strong>
+  <%= @game.rounds_count %>
+</p>
+
+<table>
+  <thead>
+  <tr>
+    <th>rounds</th>
+    <% @game.players.each do |player| %>
+      <th><%= "#{player.name} (#{player.wins.count} wins)" %></th>
+    <% end %>
+    <th>rank</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @game.rounds.each do |round| %>
+    <tr>
+      <td><%= round.number %></td>
+      <% round.hands.each do |hand| %>
+        <%= card_cell(hand.win, hand.card_list) %>
+      <% end %>
+      <td><%= round.win.rank.to_s.gsub('_', ' ') %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,7 @@
+<h3>import</h3>
+<p>
+  <%= form_with model: game, multipart: true do |form| %>
+    <%= form.file_field :file %>
+    <%= form.submit "Upload" %>
+  <% end %>
+</p>
