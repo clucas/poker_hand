@@ -28,3 +28,4 @@ docker-compose exec web rake spec
 
 ## Create a game
 Go to /games/new and import the text file, visualize the results on the game page.
+IMPORTANT: The import request may timeout at 30 seconcds (This is a Heroku limitation), the page will display an error but reloading the page will allow you to veisualize the game imported from the poker.txt file.
