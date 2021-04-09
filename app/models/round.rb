@@ -10,7 +10,7 @@ class Round < ApplicationRecord
   # Find winning hand by rand and highest card
   def find_winning_hand
     results = self.hands.collect { |x| [x.id, x.rank] }.sort { |x, y|
-      [Hand::RANKS[x.last[0]][:rank], Hand::CARD_ORDER[x.last.last]] <=> [Hand::RANKS[y.last[0]][:rank], Hand::CARD_ORDER[y.last.last]] }
+      [Hand::RANKS[x.last[0]][:rank], Hand::CARD_ORDER[x.last.last.first]] <=> [Hand::RANKS[y.last[0]][:rank], Hand::CARD_ORDER[y.last.last.first]] }
     Win.find_or_create_by!(round: self, hand_id: results.last.first, status: true, rank: results.last.last.first)
   end
 end

@@ -28,4 +28,20 @@ RSpec.describe Round, type: :model do
       expect(win.rank).to eq 'one_pair'
     end
   end
+
+  describe '#find_winning_pair hand' do
+    let(:game) { create :game, name: 'new_game'}
+    let(:player1) { create :player, game: game }
+    let(:player2) { create :player, game: game }
+    let(:round) { create :round, game: game }
+    let!(:hand1) { create :hand, card_list: '5H KS 9C 7D 9H', round: round, player: player1 }
+    let!(:hand2) { create :hand, card_list: '8D 3S 5D 5C AH', round: round, player: player2 }
+
+    it 'finds the wimnning hand' do
+      win = round.find_winning_hand
+      expect(win.status).to be_truthy
+      expect(win.hand).to eq hand1
+      expect(win.rank).to eq 'one_pair'
+    end
+  end
 end

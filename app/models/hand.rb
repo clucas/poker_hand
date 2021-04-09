@@ -13,13 +13,13 @@ class Hand < ApplicationRecord
   # rules for ranks
   RANKS = { royal_flush: { suits: 1, consecutive: 5, highest: 'A', card: 1 , rank: 10 },
             straight_flush: { suits: 1, consecutive: 5, card: 1, rank: 9 },
-            four_of_a_kind: { values: [4], card: 1, rank: 8 },
-            full_house: { values: [3, 2], card: 1, rank: 7 },
+            four_of_a_kind: { values: [4], highest_max_card: 1, rank: 8 },
+            full_house: { values: [3, 2], highest_max_card: 1, rank: 7 },
             flush: { suits: 1, card: 1, rank: 6 },
             straight: { consecutive: 5, card: 1, rank: 5 },
-            three_of_a_kind: { values: [3], card: 1, rank: 4 },
-            two_pairs: { values: [2,2], card: 1, rank: 3 },
-            one_pair: { values: [2], card: 1, rank: 2 },
+            three_of_a_kind: { values: [3], highest_max_card: 1, rank: 4 },
+            two_pairs: { values: [2,2], highest_max_card: 1, rank: 3 },
+            one_pair: { values: [2], highest_max_card: 1, rank: 2 },
             high_card: { card: 1, rank: 1 }
   }.freeze
 
@@ -55,7 +55,9 @@ class Hand < ApplicationRecord
       h[:values][:list][card[0]] = v_list
     end
     h[:suits][:max] = h[:suits][:list].keys.map { |x| h[:suits][:list][x].size }.sort_by { |x| x } .reverse
-    h[:values][:max] = h[:values][:list].keys.map { |x| h[:values][:list][x].size }.sort.reverse
+    highest_values = h[:values][:list].keys.map { |x| [h[:values][:list][x].size, x] }.sort { |x, y| x[0] <=> y[0] }.reverse
+    h[:values][:max] = highest_values.collect { |x| x[0] }
+    h[:values][:highest_max_card] = highest_values.collect { |x| x[1] }
     h
   end
 
@@ -81,6 +83,9 @@ class Hand < ApplicationRecord
     end
     if rules_h[:card]
       card = data[:values][:highest]
+    end
+    if rules_h[:highest_max_card]
+      card = data[:values][:highest_max_card]
     end
     suits && consecutive && highest && values && card
   end
