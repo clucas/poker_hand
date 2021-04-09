@@ -39,7 +39,7 @@ RSpec.describe Hand, type: :model do
       let(:hand) { create :hand, card_list: '8D 8H 8C 8D 9D', round: round, player: player }
 
       it 'detects' do
-        expect(hand.rank).to eq [:four_of_a_kind, '9']
+        expect(hand.rank).to eq [:four_of_a_kind, ['8', '9']]
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.describe Hand, type: :model do
       let(:hand) { create :hand, card_list: '8D 8H 8C 9D 9S', round: round, player: player }
 
       it 'detects' do
-        expect(hand.rank).to eq [:full_house, '9']
+        expect(hand.rank).to eq [:full_house, ['8', '9']]
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe Hand, type: :model do
       let(:hand) { create :hand, card_list: '9H 9S 9C TD JD', round: round, player: player }
 
       it 'detects' do
-        expect(hand.rank).to eq [:three_of_a_kind, 'J']
+        expect(hand.rank).to eq [:three_of_a_kind, ["9", "J", "T"]]
       end
     end
 
@@ -79,15 +79,15 @@ RSpec.describe Hand, type: :model do
       let(:hand) { create :hand, card_list: '9H 9S TC TD JD', round: round, player: player }
 
       it 'detects' do
-        expect(hand.rank).to eq [:two_pairs, 'J']
+        expect(hand.rank).to eq [:two_pairs, ["T", "9", "J"]]
       end
     end
 
     context 'one_pair' do
-      let(:hand) { create :hand, card_list: 'TS 9H AH AD 8S', round: round, player: player }
+      let(:hand) { create :hand, card_list: 'TS 9H 6H 6D 8S', round: round, player: player }
 
       it 'detects' do
-        expect(hand.rank).to eq [:one_pair, 'A']
+        expect(hand.rank).to eq [:one_pair, ["6", "T", "9", "8"]]
       end
     end
 
